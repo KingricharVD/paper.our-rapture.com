@@ -6488,6 +6488,11 @@ input[type=checkbox] { position: relative; z-index: 20; }
             -webkit-animation-name: fadeIn;
             animation-name: fadeIn;
          }
+
+ .fadeInOut {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+ }
  .animated {
             
             -webkit-animation-duration: 2s;
@@ -6495,6 +6500,13 @@ input[type=checkbox] { position: relative; z-index: 20; }
             -webkit-animation-fill-mode: both;
             animation-fill-mode: both;
          }
+ .animatedfast {
+    
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+ }
 
 @-webkit-keyframes seedpoint {
     0%,
@@ -6578,6 +6590,13 @@ padding: 5px 5px 2px 5px; }
 {
 	position: absolute; top: 79.5%; left: 12.1%; z-index: 100; font-size: .6em; background-color: transparent;
 	font-weight:bold; color: #000000; margin: 0; font-family:monospace; text-align:left;
+		
+}
+
+#paperarea .artwallet .btcaddresscopytop
+{
+	position: absolute; top: 2.5%; left: 12.1%; z-index: 100; font-size: 1.0em; background-color: transparent;
+	font-weight:normal; color: white; margin: 0; font-family:sans-serif; text-align:left;
 		
 }
 
@@ -6779,6 +6798,8 @@ padding: 5px 5px 2px 5px; }
 	#paperarea .artwallet .qrcode_private {top:309px;left:805px;}
 	.btcaddress{left:551px;top:449px;}
 */
+	#paperarea .artwallet .btcaddresscopytop {display:none;}
+
 	#paperarea .artwallet .btcaddresscopy
 	{position: absolute; top: 77.5%; left: 2.2%; z-index: 100; font-size: .9em;}
 
@@ -6937,7 +6958,10 @@ padding: 5px 5px 2px 5px; }
 						<div id="papercommands" class="row">
 							
 							<span><input class="generatebutton" type="button" id="papergenerate" value="Generate" onclick="ninja.wallets.paperwallet.build(document.getElementById('paperlimit').value * 1, document.getElementById('paperlimitperpage').value * 1, !document.getElementById('paperart').checked, document.getElementById('paperpassphrase').value);" /></span>
-							<span style="float:right;">Print on Letter sized paper at 100% (do not scale)</span>
+							<span style="font-size:.7em; line-height: 1.6em; float:right;">Print on Letter size paper in landscape format<br>
+							Chrome (preferred): Print at 100%<br>
+							Safari/Firefox: May need to print at 95%
+							</span>
 							<span class="print"><input class="printbutton" type="button" name="print" value="Print" id="paperprint" onclick="window.print();" /></span>
 							<span><label style="display:none" id="paperlabeladdressestogenerate" for="paperlimit">Addresses to generate:</label> <input style="display:none" type="text" id="paperlimit" /></span>
 						</div>
@@ -10171,6 +10195,10 @@ ninja.wallets.paperwallet = {
 									"<span class='label'>" + ninja.translator.get("paperlabelbitcoinaddress") + "</span>" +
 									"<span class='output' id='btcaddresscopy" + i + "'></span>" +
 								"</div>" +
+								"<div class='pubaddress'>" +
+									"<span class='label'>" + ninja.translator.get("paperlabelbitcoinaddress") + "</span>" +
+									"<span class='output' id='btcaddresscopytop" + i + "'></span>" +
+								"</div>" +
 							"<div class='private'>" +
 								"<div id='qrcode_private" + i + "' class='qrcode_private'></div>" +
 								"<div class='privwif'>" +
@@ -10184,6 +10212,8 @@ ninja.wallets.paperwallet = {
 	showWallet: function (idPostFix, bitcoinAddress, privateKey) {
 		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 		document.getElementById("btcaddresscopy" + idPostFix).innerHTML = bitcoinAddress;
+		document.getElementById("btcaddresscopytop" + idPostFix).innerHTML = bitcoinAddress;
+
 
 		document.getElementById("btcprivwif" + idPostFix).innerHTML = privateKey;
 		var keyValuePair = {};
@@ -10214,6 +10244,8 @@ ninja.wallets.paperwallet = {
 								"<div id='qrcode_explorer" + i + "' class='qrcode_explorer'></div>" +
 								"<div class='btcaddress' id='btcaddress" + i + "'></div>" +
 								"<div class='btcaddresscopy' id='btcaddresscopy" + i + "'></div>" +
+								"<div class='btcaddresscopytop animatedfast fadeInOut' id='btcaddresscopytop" + i + "'></div>" +
+
 								"<div class='" + keyelement + "' id='" + keyelement + i + "'></div>" +
 							"</div></div>";
 		return walletHtml;
@@ -10228,6 +10260,8 @@ ninja.wallets.paperwallet = {
 		ninja.qrCode.showQrCode(keyValuePair, 1.9);
 		document.getElementById("btcaddress" + idPostFix).innerHTML = bitcoinAddress;
 		document.getElementById("btcaddresscopy" + idPostFix).innerHTML = bitcoinAddress;
+		document.getElementById("btcaddresscopytop" + idPostFix).innerHTML = "Public address: " + bitcoinAddress;
+
 
 
 		if (ninja.wallets.paperwallet.encrypt) {
